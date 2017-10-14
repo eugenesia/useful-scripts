@@ -34,18 +34,19 @@ for file in "$@"; do \
   # 2*5% borders, see https://unix.stackexchange.com/a/220114 for details.
   min_density_x=$(calc "$img_size_x / 8.27 * 1.1");
   min_density_y=$(calc "$img_size_y / 11.69 * 1.1");
-  # # Use the higher density to prevent any dimension exceeding the required fit.
+
+  # Use the higher density to prevent any dimension exceeding the required fit.
   density=$(calc "max($min_density_x,$min_density_y)");
 
-  # # Calculate canvas dimensions in pixels.
-  # # (Canvas is an A4 page (8.27x11.69") with the calculated density.)
+  # Calculate canvas dimensions in pixels.
+  # (Canvas is an A4 page (8.27x11.69") with the calculated density.)
   page_size_x=$(calc "8.27 * $density");
   page_size_y=$(calc "11.69 * $density");
 
   offset_x=$(calc "($page_size_x - $img_size_x) / 2 * 72 / $density");
   offset_y=$(calc "($page_size_y - $img_size_y) / 2 * 72 / $density");
 
-  # Center image on a larger canvas (with a size given by "-extent").
+  # Center image on a larger canvas.
   convert "$file" \
     -page ${page_size_x}x${page_size_y}+${offset_x}+${offset_y} \
     -units PixelsPerInch -density $density \

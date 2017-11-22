@@ -1,2 +1,4 @@
-# imagemagick-scripts
-A collection of useful ImageMagick scripts.
+# Useful scripts
+
+A collection of useful scripts.
+

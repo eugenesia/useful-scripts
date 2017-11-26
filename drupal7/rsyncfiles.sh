@@ -46,11 +46,11 @@ fi
 # Define functions
 
 # Get rsync exclude params, to exclude unnecessary dirs.
-# $1: Space-separated string of more things to exclude.
+# $@ (remaining args): Space-separated string of more things to exclude.
 # Echo: '--exclude=dir1 --exclude=dir2 ...'
 getExcludeParams() {
 
-  moreExcludes=$1
+  moreExcludes="${@:1:99}"
 
   # Drupal-generated dirs which don't need to be copied over.
   drupalExcludeDirs='css ctools js xmlsitemap'
@@ -60,7 +60,7 @@ getExcludeParams() {
 
   excludeParams=''
   for exclude in $excludes; do
-    excludeParams="$excludeParams --exclude='$exclude'"
+    excludeParams="$excludeParams --exclude=$exclude"
   done
 
   echo $excludeParams

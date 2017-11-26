@@ -61,6 +61,8 @@ getExcludeParams() {
 ######################################################################
 # Main program
 
+excludeParams=$(getExcludeParams)
+
 rsyncFlags='az'
 
 # Turn on Bash and Rsync verbosity.
@@ -70,7 +72,7 @@ if [ "$verbose" = true ]; then
   set -vx
 fi
 
-rsync -$rsyncFlags $(getExcludeParams) $rsyncSrc $rsyncDest
+rsync -$rsyncFlags $excludeParams $rsyncSrc $rsyncDest
 
 # Turn off verbose.
 set +vx

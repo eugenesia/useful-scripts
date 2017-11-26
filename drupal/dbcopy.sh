@@ -6,25 +6,31 @@
 ######################################################################
 # Get options
 
+# Src database to copy from.
 srcHost='' # a
 srcDbUser='' # b
 srcDbPass='' # c
 
+# Dest database to copy to.
 destHost='' # d
 destDbUser='' # e
 destDbPass='' # f
 
+# Name of database (same for both src and dest).
 dbName='' # g
 
 verbose=false # v
 
+# Delete dest database if it exists.
+delDestDb=false # x
+
 usageMsg="Copy Drupal 7 databases from one server to another.\n"\
 "Usage: $0 -a <srcHost> -b <srcDbUser> -c <srcDbPass> -d <destHost>\n"\
-"  -e <destDbUser> -f <destDbPass> -g <dbName> -v<verbose>\n\n"\
+"  -e <destDbUser> -f <destDbPass> -g <dbName> -v<verbose> -x<delDestDb>\n\n"\
 "Example: $0 -a sql.example1.com -b myuser -c MyPass\n"\
-"  -d sql.example2.com -e myawsuser -f MyAwsPass -g mydatabase -v"
+"  -d sql.example2.com -e myawsuser -f MyAwsPass -g mydatabase -v -x"
 
-while getopts 'a:b:c:d:e:f:g:v' flag; do
+while getopts 'a:b:c:d:e:f:g:vx' flag; do
   case "${flag}" in
     a) srcHost=${OPTARG} ;;
     b) srcDbUser=${OPTARG} ;;
@@ -34,6 +40,7 @@ while getopts 'a:b:c:d:e:f:g:v' flag; do
     f) destDbPass=${OPTARG} ;;
     g) dbName=${OPTARG} ;;
     v) verbose=true ;;
+    x) delDestDb=false ;;
     *) echo -e "$usageMsg"
        exit 1 ;;
   esac
@@ -134,10 +141,18 @@ ignoreParams=$(getIgnoreParams $dbName)
 mysqldump $ignoreParams $srcParams $dbName >> $dbName.sql
 
 echo -e "Migrating \033[92m$dbName\033[0m"
-# Load data into dest table.
-mysql $destParams -e "CREATE DATABASE $dbName"
+
+if [ "$delDestDb" = true ]; then
+  mysql $destParams -e "DROP DATABASE IF EXISTS $dbName"
+fi
+
+mysql $destParams -e "CREATE DATABASE IF NOT EXISTS $dbName"
+
+# Load data into dest table by "sourcing" the SQL commands. This seems to be
+# the proper way to restore Drupal databases.
 mysql $destParams $dbName < $dbName.sql
 
+# Delete temp SQL file.
 rm $dbName.sql
 
 # Turn off verbose.

@@ -141,8 +141,10 @@ getIgnoreParams() {
 srcParams="-h $srcHost -P $srcPort -u $srcDbUser -p$srcDbPass"
 destParams="-h $destHost -P $destPort -u $destDbUser -p$destDbPass"
 
-# Turn on Bash verbosity.
+# Turn on Bash/MySQL verbosity.
 if [ "$verbose" = true ]; then
+  srcParams="$srcParams -v"
+  destParams="$destParams -v"
   set -vx
 fi
 

@@ -22,7 +22,7 @@ usageMsg="Rsync Drupal 7 files from one server to localhost, or vice versa.\n"\
 "Example: $0 -a jane@example1.com:/var/www/files/ -b john@example2.com:/tmp/files/\n"\
 "  -e dir1 -e '*.mp3'"
 
-while getopts 'a:b:v' flag; do
+while getopts 'a:b:e:v' flag; do
   case "${flag}" in
     a) rsyncSrc=$OPTARG ;;
     b) rsyncDest=$OPTARG ;;

@@ -51,7 +51,7 @@ getExcludeParams() {
 
   excludeParams=''
   for dir in "${excludeDirs[@]}"; do
-    excludeParams="$ignoreParams --exclude=$dir"
+    excludeParams="$excludeParams --exclude=$dir"
   done
 
   echo $excludeParams
@@ -66,7 +66,7 @@ rsyncFlags='az'
 # Turn on Bash and Rsync verbosity.
 if [ "$verbose" = true ]; then
   # Turn on Rsync verbosity.
-  rsyncFlags="${options}v"
+  rsyncFlags="${rsyncFlags}v"
   set -vx
 fi
 

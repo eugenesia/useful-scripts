@@ -26,7 +26,8 @@ while getopts 'a:b:v' flag; do
   case "${flag}" in
     a) rsyncSrc=$OPTARG ;;
     b) rsyncDest=$OPTARG ;;
-    e) cmdExcludes="$cmdExcludes $OPTARG"
+    # Concatenate all the excludes.
+    e) cmdExcludes="$cmdExcludes $OPTARG" ;;
     v) verbose=true ;;
     *) echo -e "$usageMsg"
        exit 1 ;;

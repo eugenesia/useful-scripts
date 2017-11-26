@@ -146,7 +146,7 @@ if [ "$verbose" = true ]; then
   set -vx
 fi
 
-echo -e "Backing up \033[92m$dbName\033[0m"
+echo -e "Backing up \033[92m$srcDb\033[0m"
 
 # Dump table structures
 mysqldump --no-data $srcParams $srcDb > $srcDb.sql
@@ -155,7 +155,7 @@ mysqldump --no-data $srcParams $srcDb > $srcDb.sql
 ignoreParams=$(getIgnoreParams $srcDb)
 mysqldump $ignoreParams $srcParams $srcDb >> $srcDb.sql
 
-echo -e "Migrating \033[92m$dbName\033[0m"
+echo -e "Loading data into \033[92m$destDb\033[0m"
 
 if [ "$delDestDb" = true ]; then
   mysql $destParams -e "DROP DATABASE IF EXISTS $destDb"

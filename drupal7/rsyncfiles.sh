@@ -60,7 +60,7 @@ getExcludeParams() {
 
   excludeParams=''
   for exclude in $excludes; do
-    excludeParams="$excludeParams --exclude=$exclude"
+    excludeParams="$excludeParams --exclude='$exclude'"
   done
 
   echo $excludeParams

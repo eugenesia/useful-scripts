@@ -27,11 +27,14 @@ verbose=false # v
 # Delete dest database if it exists.
 delDestDb=false # x
 
+# Filename of this script.
+scriptFile=$(basename $0)
+
 usageMsg="Copy Drupal 7 databases from one server to another.\n"\
-"Usage: $0 -a <srcHost> [-b <srcPort>] -c <srcDb> -d <srcDbUser> -e <srcDbPass>\n"\
+"Usage: $scriptFile -a <srcHost> [-b <srcPort>] -c <srcDb> -d <srcDbUser> -e <srcDbPass>\n"\
 "  -f <destHost> [-g <destPort>] -h <destDb> -i <destDbUser> -j <destDbPass>\n"\
 "  [-v<verbose>] [-x<delDestDb>]\n\n"\
-"Example: $0 -a sql.example1.com -b 3306 -c src_db -d myuser -e MyPass\n"\
+"Example: $scriptFile -a sql.example1.com -b 3306 -c src_db -d myuser -e MyPass\n"\
 "  -f sql.example2.com -g 3307 -h myawsuser -i MyAwsPass -j destdb -vx"
 
 while getopts 'a:b:c:d:e:f:g:h:i:j:vx' flag; do

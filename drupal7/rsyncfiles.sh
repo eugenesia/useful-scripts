@@ -16,10 +16,13 @@ rsyncDest='' # b
 
 verbose=false # v
 
+# Filename of this script.
+scriptFile=$(basename $0)
+
 usageMsg="Rsync Drupal 7 files from one server to localhost, or vice versa.\n"\
-"Usage: $0 -a <srcUser@srcHost:/src/dir/> -b <destUser@destHost:/dest/dir/>\n"\
+"Usage: $scriptFile -a <srcUser@srcHost:/src/dir/> -b <destUser@destHost:/dest/dir/>\n"\
 "  [-e dir1 -e dir2 ...] -v\n\n"\
-"Example: $0 -a jane@example1.com:/var/www/files/ -b john@example2.com:/tmp/files/\n"\
+"Example: $scriptFile -a jane@example1.com:/var/www/files/ -b john@example2.com:/tmp/files/\n"\
 "  -e dir1 -e '*.mp3'"
 
 while getopts 'a:b:e:v' flag; do

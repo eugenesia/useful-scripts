@@ -4,6 +4,8 @@
 # Download a movie from solarmoviez.ru.
 # Usage: <script name> <movieId> <episodeId>
 #
+# Prerequisite: ffmpeg must be installed.
+#
 # The movie and episode IDs can be found on the URL when watching the movie on
 # the website. E.g. when watching "The Crown", the URL is:
 # https://solarmoviez.ru/movie/the-crown-season-2-22918/1106440-7/watching.html
@@ -14,6 +16,9 @@ set -vx
 
 movieId=$1
 episodeId=$2
+
+# Temp dir to save all downloaded files.
+tmpDir=${3:-tmp}
 
 # Header required for certain requests.
 refererHeader='Referer:https://solarmoviez.ru'
@@ -59,9 +64,9 @@ tsLastIndex=$(echo $lastTs | sed -E 's/.+seg\-([[:digit:]]+).+/\1/')
 tsBaseUrl=$(echo $playlist2 | sed -E 's/(.+)playlist\.m3u8.+/\1/')
 
 # Download all TS files.
-mkdir -p tmp
-rm tmp/*
-cd tmp
+mkdir -p $tmpDir
+rm $tmpDir/*
+cd $tmpDir
 
 for i in $(seq 1 $tsLastIndex); do
   curl -k -H $refererHeader $tsBaseUrl$tsPrefix$i$tsSuffix > $i.ts
@@ -76,6 +81,8 @@ done
 
 # Concatenate without re-encoding.
 ffmpeg -i $ffmArg -c copy output.mp4
+
+cd ..
 
 set +vx
 

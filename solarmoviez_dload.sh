@@ -40,6 +40,14 @@ movieSrc="https://solarmoviez.ru/ajax/movie_sources/$episodeId?x=$movieTokenX&y=
 # Subtitle file URL.
 subtitle=$(curl -k $movieSrc | sed -E 's/.+\,"file":"([^"]+)".+/\1/; s/\\//g')
 
+# Download files into tmp dir.
+mkdir -p $tmpDir
+rm $tmpDir/*
+cd $tmpDir
+
+# Download subtitle first in case subsequent commands fail.
+wget $subtitle
+
 # Extract URL-encoded playlist, then delete escape char '\' to URL-decode.
 # E.g. https://streaming.lemonstream.me:1443/.../.../playlist.m3u8?ggdomain=...&ggvideo=...&cookie=...&link=...
 # This isn't the actual playlist, just a URL to use to get the actual playlists.
@@ -63,11 +71,6 @@ tsLastIndex=$(echo $lastTs | sed -E 's/.+seg\-([[:digit:]]+).+/\1/')
 # Another prefix needed to get the full TS file URL.
 tsBaseUrl=$(echo $playlist2 | sed -E 's/(.+)playlist\.m3u8.+/\1/')
 
-# Download all TS files.
-mkdir -p $tmpDir
-rm $tmpDir/*
-cd $tmpDir
-
 for i in $(seq 1 $tsLastIndex); do
   curl -k -H $refererHeader $tsBaseUrl$tsPrefix$i$tsSuffix > $i.ts
 done
@@ -81,9 +84,6 @@ done
 
 # Concatenate without re-encoding.
 ffmpeg -i $ffmArg -c copy output.mp4
-
-# Download subtitles file.
-wget $subtitle
 
 cd ..
 

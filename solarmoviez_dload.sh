@@ -74,8 +74,8 @@ done
 
 # Concatenate all files using ffmpeg.
 # Cmd: ffmpeg -i "concat:input1.ts|input2.ts|input3.ts" -c copy output.ts
-ffmArg='concat:'
-for i in $(seq 1 $tsLastIndex); do
+ffmArg='concat:1.ts'
+for i in $(seq 2 $tsLastIndex); do
   ffmArg="$ffmArg|$i.ts"
 done
 

@@ -82,6 +82,9 @@ done
 # Concatenate without re-encoding.
 ffmpeg -i $ffmArg -c copy output.mp4
 
+# Download subtitles file.
+wget $subtitle
+
 cd ..
 
 set +vx

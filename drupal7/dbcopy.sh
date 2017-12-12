@@ -72,9 +72,13 @@ fi
 # Arg1: database name.
 # Echo: '--ignore-table=mydb.mytable1 --ignore-table=mydb.myothertable ...'
 getIgnoreParams() {
-  dbName=$1
 
-  ignoreTables=(
+  # This is a very noisy function, don't output everything.
+  set -vx
+
+  local dbName=$1
+
+  local ignoreTables=(
     cache
     cache_admin_menu
     cache_authcache_key
@@ -128,12 +132,15 @@ getIgnoreParams() {
     watchdog
   )
 
-  ignoreParams=''
+  local ignoreParams=''
   for table in "${ignoreTables[@]}"; do
     ignoreParams="$ignoreParams --ignore-table=$dbName.$table"
   done
 
   echo $ignoreParams
+
+  # Return to verbose mode.
+  [ "$verbose" = true ] && set -vx
 }
 
 

@@ -175,6 +175,12 @@ fi
 
 mysql $destParams -e "CREATE DATABASE IF NOT EXISTS $destDb"
 
+# Exit if cannot access dest db, leaving SQL file intact for manual import.
+if [ $? -eq 0 ]; then
+  echo 'Error with MySQL commands on destination db. SQL file left intact.'
+  exit 1
+fi
+
 # Load data into dest table by "sourcing" the SQL commands. This seems to be
 # the proper way to restore Drupal databases.
 mysql $destParams $destDb < $srcDb.sql

@@ -176,9 +176,10 @@ fi
 mysql $destParams -e "CREATE DATABASE IF NOT EXISTS $destDb"
 
 # Exit if cannot access dest db, leaving SQL file intact for manual import.
-if [ $? -eq 0 ]; then
+mysqlExitCode=$?
+if [ "$mysqlExitCode" -eq 0 ]; then
   echo 'Error with MySQL commands on destination db. SQL file left intact.'
-  exit 1
+  exit $mysqlExitCode
 fi
 
 # Load data into dest table by "sourcing" the SQL commands. This seems to be

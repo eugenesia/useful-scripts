@@ -72,10 +72,6 @@ fi
 # Arg1: database name.
 # Echo: '--ignore-table=mydb.mytable1 --ignore-table=mydb.myothertable ...'
 getIgnoreParams() {
-
-  # This is a very noisy function, don't output everything.
-  set -vx
-
   local dbName=$1
 
   local ignoreTables=(
@@ -138,9 +134,6 @@ getIgnoreParams() {
   done
 
   echo $ignoreParams
-
-  # Return to verbose mode.
-  [ "$verbose" = true ] && set -vx
 }
 
 
@@ -163,8 +156,13 @@ echo -e "Backing up \033[92m$srcDb\033[0m"
 # Dump table structures
 mysqldump --no-data $srcParams $srcDb > $srcDb.sql
 
-# Dump table data, ignoring some tables.
+# This is a very noisy function, don't output everything.
+set +vx
 ignoreParams=$(getIgnoreParams $srcDb)
+# Return to verbose mode.
+[ "$verbose" = true ] && set -vx
+
+# Dump table data, ignoring some tables.
 mysqldump $ignoreParams $srcParams $srcDb >> $srcDb.sql
 
 echo -e "Loading data into \033[92m$destDb\033[0m"

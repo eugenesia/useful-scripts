@@ -171,7 +171,7 @@ mysql $destParams -e 'SHOW DATABASES'
 
 # Exit if cannot access dest db, leaving SQL file intact for manual import.
 mysqlExitCode=$?
-if [ "$mysqlExitCode" -eq 0 ]; then
+if [ $mysqlExitCode -ne 0 ]; then
   echo 'Error with MySQL commands on destination db. SQL file left intact.'
   exit $mysqlExitCode
 fi

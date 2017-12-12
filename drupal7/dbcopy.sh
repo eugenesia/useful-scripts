@@ -165,13 +165,9 @@ ignoreParams=$(getIgnoreParams $srcDb)
 # Dump table data, ignoring some tables.
 mysqldump $ignoreParams $srcParams $srcDb >> $srcDb.sql
 
-echo -e "Loading data into \033[92m$destDb\033[0m"
 
-if [ "$delDestDb" = true ]; then
-  mysql $destParams -e "DROP DATABASE IF EXISTS $destDb"
-fi
-
-mysql $destParams -e "CREATE DATABASE IF NOT EXISTS $destDb"
+echo -e "Testing access to database \033[92m$destDb\033[0m"
+mysql $destParams -e 'SHOW DATABASES'
 
 # Exit if cannot access dest db, leaving SQL file intact for manual import.
 mysqlExitCode=$?
@@ -179,6 +175,14 @@ if [ "$mysqlExitCode" -eq 0 ]; then
   echo 'Error with MySQL commands on destination db. SQL file left intact.'
   exit $mysqlExitCode
 fi
+
+echo -e "Loading data into \033[92m$destDb\033[0m"
+
+if [ "$delDestDb" = true ]; then
+  mysql $destParams -e "DROP DATABASE IF EXISTS $destDb"
+fi
+
+mysql $destParams -e "CREATE DATABASE IF NOT EXISTS $destDb"
 
 # Load data into dest table by "sourcing" the SQL commands. This seems to be
 # the proper way to restore Drupal databases.

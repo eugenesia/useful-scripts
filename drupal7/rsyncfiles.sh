@@ -56,7 +56,7 @@ getExcludeParams() {
   moreExcludes="${@:1:99}"
 
   # Drupal-generated dirs which don't need to be copied over.
-  drupalExcludeDirs='css ctools js styles xmlsitemap'
+  drupalExcludeDirs='.ht.filecache css ctools js styles xmlsitemap'
 
   # Concatenate all the excluded args.
   excludes="$drupalExcludeDirs $moreExcludes"

@@ -47,10 +47,11 @@ for file in "$@"; do \
   offset_y=$(calc "($page_size_y - $img_size_y) / 2 * 72 / $density");
 
   # Center image on a larger canvas.
+  # "${file/%.*/.pdf}" - changes extension to .pdf via parameter substitution.
   convert "$file" \
     -page ${page_size_x}x${page_size_y}+${offset_x}+${offset_y} \
     -units PixelsPerInch -density $density \
     -format pdf -compress jpeg \
-    "${file/.jpg/.pdf}";
+    "${file/%.*/.pdf}";
 done;
 

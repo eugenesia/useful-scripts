@@ -4,6 +4,19 @@
 # You must first run an emulator in Android Studio, then install and run the
 # app you want to simulate steps for.
 
+# Port for connecting to Android emulator instance.
+set port [lindex $argv 0]
+if {$port eq ""} {
+  set port 5554
+}
+
+# No. of steps to simulate
+set stepcount [lindex $argv 1]
+if {$stepcount eq ""} {
+  set stepcount 100
+}
+
+
 # Set acceleration to a value, then wait.
 proc accset { y } {
   send "sensor set acceleration 0:$y:0\r"
@@ -18,14 +31,9 @@ set f [open "~/.emulator_console_auth_token"]
 set token [read $f]
 close $f
 
-# No. of steps to simulate
-set stepcount [lindex $argv 0]
-if {$stepcount eq ""} {
-  set stepcount 100
-}
 
 #This spawns the telnet program and connects it to the variable name
-spawn telnet localhost 5554
+spawn telnet localhost $port
 expect "OK"
 
 send "auth $token\r"

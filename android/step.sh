@@ -38,11 +38,11 @@ for {set i 0} {$i < $stepcount} {incr i} {
 
   # Up movement
   accset 0
-  sleep 0.3
+  sleep 0.2
 
   # Down movement
   accset 20
-  sleep 0.3
+  sleep 0.2
 }
 
 # Set to default acceleration (1 G-Force).

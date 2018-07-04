@@ -99,11 +99,11 @@ for {set i 0} {$i < $stepcount} {incr i} {
 
   # Up movement
   accset 5
-  sleep 0.5
+  sleep 0.2
 
   # Down movement
   accset 15
-  sleep 0.5
+  sleep 0.2
 
   # After every number of steps, pause for data to upload.
   if { $i > 0 && $i % $pauseInterval == 0 } {

@@ -38,7 +38,7 @@ if {$lonStart eq ""} {
 set geoIncr 0.000001
 
 # Pause after every x steps to allow data to upload.
-set pauseInterval 10
+set pauseInterval 500
 
 
 ###############################################################################

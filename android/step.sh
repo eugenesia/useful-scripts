@@ -19,14 +19,20 @@ if {$stepcount eq ""} {
 # Starting lat and long.
 set latStart 51.5018
 set lonStart -0.0198
-# The amount to be multiplied by rand() and then increment lat/lon.
-set geoIncr 0.0001
+# For each step, lat/lon will change by random amount in range
+# -geoIncr to +geoIncr.
+set geoIncr 0.01
 
 
 # Set acceleration to a value, then wait.
 proc accset { y } {
   send "sensor set acceleration 0:$y:0\r"
   expect "OK"
+}
+
+# Get a random float in the range -abs to +abs.
+proc randSigned { abs } {
+  return [expr { $abs - (2 * $abs * rand()) }]
 }
 
 #If it all goes pear shaped the script will timeout after 20 seconds.
@@ -55,8 +61,11 @@ for {set i 0} {$i < $stepcount} {incr i} {
   send_user "Step: $i\n"
 
   # Randomly increment/decrement the lat/lon.
-  set lat [expr {$lat + $geoIncr * rand()}]
-  set lon [expr {$lon + $geoIncr * rand()}]
+  set latIncr [randSigned $geoIncr]
+  set lat [expr {$lat + $latIncr}]
+
+  set lonIncr [randSigned $geoIncr]
+  set lon [expr {$lon + $lonIncr}]
 
   # Set the phone's GPS to the new lat lon.
   send "geo fix $lon $lat\n"

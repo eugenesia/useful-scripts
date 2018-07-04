@@ -19,6 +19,8 @@ if {$stepcount eq ""} {
 # Starting lat and long.
 set latStart 51.5018
 set lonStart -0.0198
+# The amount to be multiplied by rand() and then increment lat/lon.
+set geoIncr 0.0001
 
 
 # Set acceleration to a value, then wait.
@@ -53,8 +55,8 @@ for {set i 0} {$i < $stepcount} {incr i} {
   send_user "Step: $i\n"
 
   # Randomly increment/decrement the lat/lon.
-  set lat [expr {$lat + 0.001 * rand()}]
-  set lon [expr {$lon + 0.001 * rand()}]
+  set lat [expr {$lat + $geoIncr * rand()}]
+  set lon [expr {$lon + $geoOicr * rand()}]
 
   # Set the phone's GPS to the new lat lon.
   send "geo fix $lon $lat\n"

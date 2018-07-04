@@ -56,7 +56,7 @@ for {set i 0} {$i < $stepcount} {incr i} {
 
   # Randomly increment/decrement the lat/lon.
   set lat [expr {$lat + $geoIncr * rand()}]
-  set lon [expr {$lon + $geoOicr * rand()}]
+  set lon [expr {$lon + $geoIncr * rand()}]
 
   # Set the phone's GPS to the new lat lon.
   send "geo fix $lon $lat\n"

@@ -16,6 +16,10 @@ if {$stepcount eq ""} {
   set stepcount 100
 }
 
+# Starting lat and long.
+set latStart 51.5018
+set lonStart -0.0198
+
 
 # Set acceleration to a value, then wait.
 proc accset { y } {
@@ -41,8 +45,20 @@ expect "OK"
 
 send "help\r"
 
+# Set latitude and longitude as we take each step, to better simulate walking.
+set lat $latStart
+set lon $lonStart
+
 for {set i 0} {$i < $stepcount} {incr i} {
   send_user "Step: $i\n"
+
+  # Randomly increment/decrement the lat/lon.
+  set lat [expr {$lat + 0.01 * rand()}]
+  set lon [expr {$lon + 0.01 * rand()}]
+
+  # Set the phone's GPS to the new lat lon.
+  geo fix $lon $lat
+  expect "OK"
 
   # Up movement
   accset 0

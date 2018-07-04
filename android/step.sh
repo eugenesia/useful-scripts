@@ -4,6 +4,10 @@
 # You must first run an emulator in Android Studio, then install and run the
 # app you want to simulate steps for.
 
+
+###############################################################################
+# Variables and config
+
 # Port for connecting to Android emulator instance.
 set port [lindex $argv 0]
 if {$port eq ""} {
@@ -17,13 +21,28 @@ if {$stepcount eq ""} {
 }
 
 # Starting lat and long.
-set latStart 51.5018
-set lonStart -0.0198
+set latStart [lindex $argv 2]
+if {$latStart eq ""} {
+  # Billingsgate market.
+  set latStart 51.5018
+}
+set lonStart [lindex $argv 3]
+if {$lonStart eq ""} {
+  # Billingsgate market.
+  set lonStart -0.0198
+}
+
 # For each step, lat/lon will change by random amount in range
 # -geoIncr to +geoIncr.
 # 0.000001 lat === 11 cm: Ok for distance of one step
 set geoIncr 0.000001
 
+# Pause after every x steps to allow data to upload.
+set pauseInterval 10
+
+
+###############################################################################
+# Procedures
 
 # Set acceleration to a value, then wait.
 proc accset { y } {
@@ -35,6 +54,10 @@ proc accset { y } {
 proc randSigned { abs } {
   return [expr { $abs - (2 * $abs * rand()) }]
 }
+
+
+###############################################################################
+# Main script
 
 #If it all goes pear shaped the script will timeout after 20 seconds.
 set timeout 20
@@ -79,6 +102,11 @@ for {set i 0} {$i < $stepcount} {incr i} {
   # Down movement
   accset 20
   sleep 0.2
+
+  # After every number of steps, pause for data to upload.
+  if { $i > 0 && $i % $pauseInterval == 0 } {
+    sleep 15
+  }
 }
 
 # Set to default acceleration (1 G-Force).

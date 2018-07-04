@@ -53,11 +53,11 @@ for {set i 0} {$i < $stepcount} {incr i} {
   send_user "Step: $i\n"
 
   # Randomly increment/decrement the lat/lon.
-  set lat [expr {$lat + 0.01 * rand()}]
-  set lon [expr {$lon + 0.01 * rand()}]
+  set lat [expr {$lat + 0.001 * rand()}]
+  set lon [expr {$lon + 0.001 * rand()}]
 
   # Set the phone's GPS to the new lat lon.
-  geo fix $lon $lat
+  send "geo fix $lon $lat\n"
   expect "OK"
 
   # Up movement

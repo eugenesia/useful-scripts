@@ -21,7 +21,8 @@ set latStart 51.5018
 set lonStart -0.0198
 # For each step, lat/lon will change by random amount in range
 # -geoIncr to +geoIncr.
-set geoIncr 0.00001
+# 0.000001 lat === 11 cm: Ok for distance of one step
+set geoIncr 0.000001
 
 
 # Set acceleration to a value, then wait.

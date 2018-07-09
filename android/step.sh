@@ -22,14 +22,21 @@ if {$stepcount eq ""} {
 
 # Starting lat and long.
 set latStart [lindex $argv 2]
-if {$latStart eq ""} {
-  # Billingsgate market.
-  set latStart 51.5018
-}
 set lonStart [lindex $argv 3]
+
+# If lat/lon not specified, randomly pick a starting point within this area.
+# Battersea Park
+set areaLatMin 51.479107
+set areaLonMin -0.156498
+# Queen Elizabeth Olympic Park
+set areaLatMax 51.543296
+set areaLonMax -0.016552
+
+if {$latStart eq ""} {
+  set latStart [expr { $areaLatMin + rand() * ($areaLatMax - $areaLatMin) }]
+}
 if {$lonStart eq ""} {
-  # Billingsgate market.
-  set lonStart -0.0198
+  set lonStart [expr { $areaLonMin + rand() * ($areaLonMax - $areaLonMin) }]
 }
 
 # For each step, lat/lon will change by random amount in range

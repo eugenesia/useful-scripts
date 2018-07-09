@@ -91,7 +91,7 @@ set lat $latStart
 set lon $lonStart
 
 for {set i 0} {$i < $stepcount} {incr i} {
-  send_user "Step: $i\n"
+  send_user "Step: $i of $stepcount\n"
 
   # Randomly increment/decrement the lat/lon.
   set latIncr [randSigned $geoIncr]

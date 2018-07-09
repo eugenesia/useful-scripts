@@ -84,7 +84,7 @@ expect "OK"
 send "auth $token\r"
 expect "OK"
 
-send "help\r"
+# send "help\r"
 
 # Set latitude and longitude as we take each step, to better simulate walking.
 set lat $latStart

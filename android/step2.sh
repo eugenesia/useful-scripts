@@ -42,7 +42,7 @@ if {$lonStart eq ""} {
 # For each step, lat/lon will change by random amount in range
 # -geoIncr to +geoIncr.
 # 0.000005 lat === 56 cm: Ok for distance of one step
-set geoIncr 0.000005
+set geoIncr 0.0001
 
 # Pause after every x steps to allow data to upload.
 set pauseInterval 3000

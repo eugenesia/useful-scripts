@@ -42,7 +42,7 @@ if {$lonStart eq ""} {
 # For each step, lat/lon will change by random amount in range
 # -geoIncr to +geoIncr.
 # 0.000005 lat === 56 cm: Ok for distance of one step
-set geoIncr 0.00000001
+set geoIncr 0.000005
 
 # Pause after every x steps to allow data to upload.
 set pauseInterval 3000
@@ -111,7 +111,7 @@ for {set i 0} {$i < $stepcount} {incr i} {
   accset [ expr { 7 + [ randSigned 1 ] }]
   accset [ expr { 5 + [ randSigned 1 ] }]
   accset [ expr { 3 + [ randSigned 1 ] }]
-  sleep 0.5
+  sleep 0.3
 
   # Down movement
   accset [ expr { 5 + [ randSigned 1 ] }]
@@ -120,12 +120,12 @@ for {set i 0} {$i < $stepcount} {incr i} {
   accset [ expr { 11 + [ randSigned 1 ] }]
   accset [ expr { 13 + [ randSigned 1 ] }]
   accset [ expr { 15 + [ randSigned 1 ] }]
-  sleep 0.5
+  sleep 0.3
 
   accset [ expr { 13 + [ randSigned 1 ] }]
   accset [ expr { 11 + [ randSigned 1 ] }]
   accset [ expr { 9 + [ randSigned 1 ] }]
-  sleep 0.5
+  sleep 0.3
 
   # After every number of steps, pause for data to upload.
   if { $i > 0 && $i % $pauseInterval == 0 } {

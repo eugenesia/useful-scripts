@@ -120,12 +120,12 @@ for {set i 0} {$i < $stepcount} {incr i} {
   accset [ expr { 11 + [ randSigned 1 ] }]
   accset [ expr { 13 + [ randSigned 1 ] }]
   accset [ expr { 15 + [ randSigned 1 ] }]
-  sleep 0.2
+  sleep 0.1
 
   accset [ expr { 13 + [ randSigned 1 ] }]
   accset [ expr { 11 + [ randSigned 1 ] }]
   accset [ expr { 9 + [ randSigned 1 ] }]
-  sleep 0.2
+  sleep 0.1
 
   # After every number of steps, pause for data to upload.
   if { $i > 0 && $i % $pauseInterval == 0 } {

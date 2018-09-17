@@ -12,7 +12,7 @@ emulatorId=$1 # E.g. 5554
 sleep 4
 
 # Do steps to be tracked for the activity
-./step2.sh $emulatorId 10
+./step2.sh $emulatorId 14000
 
 # Stop and save the activity
 ./gfit.sh $emulatorId stop-activity

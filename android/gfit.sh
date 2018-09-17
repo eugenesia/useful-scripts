@@ -25,6 +25,8 @@ function startActivity() {
   # runShellCmd 'input tap 240 280'
   # "Start" button
   runShellCmd 'input tap 240 700'
+  # Wait for 3-2-1 countdown
+  sleep 4
 }
 
 case "$cmd" in

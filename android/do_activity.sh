@@ -9,9 +9,6 @@ steps=${2:-14000} # No. of steps to do
 ./gfit.sh $emulatorId launch
 ./gfit.sh $emulatorId start-activity
 
-# Wait for the 321 countdown
-sleep 4
-
 # Do steps to be tracked for the activity
 ./step2.sh $emulatorId $steps
 

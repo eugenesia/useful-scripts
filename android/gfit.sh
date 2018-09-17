@@ -11,6 +11,8 @@ adbShellCmd=''
 function runShellCmd() {
   local cmd=$1
   adb -s emulator-$emulatorId shell $cmd
+  # Wait for execution
+  sleep 1
 }
 
 # Start an activity
@@ -45,6 +47,8 @@ case "$cmd" in
     runShellCmd 'input tap 240 750'
     # Stop button
     runShellCmd 'input tap 430 750'
+    # Wait for "Saving activity"
+    sleep 5
     # Back button - KEYCODE_BACK === 4
     runShellCmd 'input keyevent 4'
     ;;

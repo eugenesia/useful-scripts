@@ -3,7 +3,7 @@
 # Do an activity in Google Fit
 
 emulatorId=$1 # E.g. 5554
-steps=${2:-14000} # No. of steps to do
+steps=${2:-16000} # No. of steps to do
 
 # Launch Google Fit and start the last activity type: running/walking/etc
 ./gfit.sh $emulatorId launch

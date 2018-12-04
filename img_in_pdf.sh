@@ -6,6 +6,9 @@
 # Usage: [command] image1.jpg image2.png ...
 # Output: PDF files named after the images e.g. image1.pdf
 
+# Page dimensions (A4)
+pageWidth=8.27
+pageHeight=11.69
 
 # bc function to calculate maximum of two floats
 bc_functions="
@@ -32,16 +35,16 @@ for file in "$@"; do \
   # Calculate image density (in dpi) needed to fit the image and a 5% 
   # border all around on an A4 page (8.27x11.69"). Factor 1.1 creates 
   # 2*5% borders, see https://unix.stackexchange.com/a/220114 for details.
-  min_density_x=$(calc "$img_size_x / 8.27 * 1.1");
-  min_density_y=$(calc "$img_size_y / 11.69 * 1.1");
+  min_density_x=$(calc "$img_size_x / $pageWidth * 1.1");
+  min_density_y=$(calc "$img_size_y / $pageHeight * 1.1");
 
   # Use the higher density to prevent any dimension exceeding the required fit.
   density=$(calc "max($min_density_x,$min_density_y)");
 
   # Calculate canvas dimensions in pixels.
   # (Canvas is an A4 page (8.27x11.69") with the calculated density.)
-  page_size_x=$(calc "8.27 * $density");
-  page_size_y=$(calc "11.69 * $density");
+  page_size_x=$(calc "$pageWidth * $density");
+  page_size_y=$(calc "$pageHeight * $density");
 
   offset_x=$(calc "($page_size_x - $img_size_x) / 2 * 72 / $density");
   offset_y=$(calc "($page_size_y - $img_size_y) / 2 * 72 / $density");

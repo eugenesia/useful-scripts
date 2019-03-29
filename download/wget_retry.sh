@@ -14,7 +14,7 @@ while [ 1 ]; do
     --timeout=15 \
     --tries=0 \
     --continue \
-    --output-document=$output
+    --output-document=$output \
     -- $url
 
   if [ $? = 0 ]; then break; fi; # check return value, break if successful (0)

@@ -5,6 +5,7 @@
 
 url=$1
 output=$2
+referer=$3 # Referer header required else 403
 
 while [ 1 ]; do
   wget \
@@ -15,6 +16,7 @@ while [ 1 ]; do
     --tries=0 \
     --continue \
     --output-document=$output \
+    --header "Referer: $referer" \
     -- $url
 
   if [ $? = 0 ]; then break; fi; # check return value, break if successful (0)

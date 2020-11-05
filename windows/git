@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# In Windows Subsystem for Linux (WSL) file-intensive operations
+# like "git status" run very slowly due to a bug
+# https://github.com/microsoft/WSL/issues/4197
+
+# Solution for Git is to install Git for Windows
+# and use git.exe when on Windows filesystem
+
+# pwd -P handles symlinks to Windows filesystem too
+if [[ -n $(pwd -P | grep '/mnt/c') ]]; then
+  # Git for Windows
+  exec git.exe "$@"
+else
+  # Git for Linux
+  exec /usr/bin/git "$@"
+fi
+
